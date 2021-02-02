@@ -6,4 +6,3 @@ SimplyNews aims to be text-browser compatible while also looking very clean on o
 
 ### TODOs
 - [ ] i18n
-- [ ] Support for sending patches via email
