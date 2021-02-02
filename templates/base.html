@@ -1,0 +1,20 @@
+<!doctype html>
+
+<html>
+    <head>
+        {% block head %}
+            <title>{% block title %}SimplyNews{% endblock %}</title>
+        {% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body style="max-width: 800px; margin: 0 auto; padding-left: 5px; padding-right: 5px">
+        <div id="content">{% block content %}{% endblock %}</div>
+
+        <footer>
+        {% block footer %}
+            <a href="https://codeberg.org/simple-web/SimplyNews">Source code for this website</a>
+        {% endblock %}
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}{{ site.site_title }} - Recent Articles {% endblock %}
+
+{% block content %}
+
+    <h2>Recent articles from {{ site.site_title }}</h2>
+
+    {% for article in recent_articles %}
+        <a href="{{ article.link }}">
+            {{ article.title }}
+        </a>
+        <br>
+        <br>
+    {% endfor %}
+{% endblock %}

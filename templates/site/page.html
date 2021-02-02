@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}{{ site.site_title }} - {{ page.title }}{% endblock %}
+
+{% block content %}
+
+    <h2>{{ page.title }}</h2>
+    {% if page.subtitle %}
+        <h4>{{ page.subtitle }}</h4>
+    {% endif %}
+    Last updated <strong>{{ page.last_updated }}</strong>  by <strong>{{ page.author }}</strong>
+    <br>
+    <br>
+
+    {% for el in page.article %}
+        {% if el.type == "paragraph" %}
+            <p>{{ el.value }}</p>
+        {% elif el.type == "text" %}
+            {{ el.value }}
+        {% elif el.type == "link" %}
+            <a href="{{ el.href }}">{{ el.value }}</a>
+        {% elif el.type == 'strong' %}
+            <strong>{{ el.value }}</strong>
+        {% elif el.type == 'em' %}
+            <em>{{ el.value }}</em>
+        {% elif el.type == "linebreak" %}
+            <br>
+        {% elif el.type == "code" %}
+            <code>{{ el.value }}</code>
+        {% elif el.type == "image" %}
+            <img width="100%" src="{{ el.src }}" alt="{{ el.alt }}"/>
+        {% elif el.type == "video" %}
+            <video width="100%" controls>
+                <source src="{{ el.src }}">
+            </video>
+        {% elif el.type == "unsorted list" %}
+            <ul>
+                {% for entry in el.entries %}
+                <li>{{ entry.value }}</li>
+                {% endfor %}
+            </ul>
+        {% elif el.type == "blockquote" %}
+            <blockquote>
+                <p>{{ el.value }}</p>
+            </blockquote>
+        {% elif el.type == "header" %}
+            {% if el.size == "h1" %}
+            <h1>{{ el.value }}</h1>
+            {% elif el.size == "h2" %}
+            <h2>{{ el.value }}</h2>
+            {% elif el.size == "h3" %}
+            <h3>{{ el.value }}</h3>
+            {% elif el.size == "h4" %}
+            <h4>{{ el.value }}</h4>
+            {% elif el.size == "h5" %}
+            <h5>{{ el.value }}</h5>
+            {% elif el.size == "h6" %}
+            <h6>{{ el.value }}</h6>
+            {% else %}
+            <strong>err, was unable to get the header size</strong>
+            <br>
+            {{ el.value }}
+            <br>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    <a href="/{{ sitename }}">Back to {{ sitename }}</a> 
+    <b> | </b>
+    <a href="{{ original_link }}">See original post on {{ sitename }}</a>
+
+
+{% endblock %}

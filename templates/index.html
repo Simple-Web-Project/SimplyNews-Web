@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>This is SimplyNews.</h1>
+<p>SimplyNews is a website to read articles from other sites. Without JavaScript, ads or any other interruptions. Just content.</p>
+
+<h3>List of supported sites</h3>
+<ul>
+    {% for site in sites %}
+    <li><a href="{{ site.link }}">{{ site.name }}</a></li>
+    {% endfor %}
+</ul>
+
+<br>
+<p>SimplyNews is part of the Simple Web project</p>
+<p>Do you have problems? Do you want a site to be added? Message us on our <a href="https://webchat.freenode.net/#simple-web">IRC</a> (#simple-web on irc.freenode.net)</p>
+
+{% endblock %}
