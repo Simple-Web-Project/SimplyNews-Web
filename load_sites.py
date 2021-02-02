@@ -1,12 +1,12 @@
-from sites import itsfoss
-from sites import theverge
-from sites import decentralizetoday
-from sites import nypost
-from sites import theguardian
-from sites import heise
-from sites import androidauthority
-from sites import makeuseof
-from sites import gameinformer
+from simplynews_sites import itsfoss
+from simplynews_sites import theverge
+from simplynews_sites import decentralizetoday
+from simplynews_sites import nypost
+from simplynews_sites import theguardian
+from simplynews_sites import heise
+from simplynews_sites import androidauthority
+from simplynews_sites import makeuseof
+from simplynews_sites import gameinformer
 
 sites = {
     "gameinformer.com": gameinformer,
