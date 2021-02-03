@@ -1,5 +1,5 @@
 from quart import Quart, render_template
-from load_sites import sites
+from simplynews_sites.load_sites import sites
 import config
 import datetime
 import json
