@@ -19,9 +19,9 @@
             {{ el.value }}
         {% elif el.type == "link" %}
             <a href="{{ el.href }}">{{ el.value }}</a>
-        {% elif el.type == 'strong' %}
+        {% elif el.type == "strong" %}
             <strong>{{ el.value }}</strong>
-        {% elif el.type == 'em' %}
+        {% elif el.type == "em" %}
             <em>{{ el.value }}</em>
         {% elif el.type == "linebreak" %}
             <br>
@@ -33,6 +33,8 @@
             <video width="100%" controls>
                 <source src="{{ el.src }}">
             </video>
+        {% elif el.type == "iframe" %}
+            <iframe allowfullscreen="allowfullscreen" frameborder="0" width="100%" src="{{ el.src }}"></iframe>
         {% elif el.type == "unsorted list" %}
             <ul>
                 {% for entry in el.entries %}
