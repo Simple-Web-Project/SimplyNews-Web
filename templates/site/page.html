@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 
+{% block head %}
+
+<meta name="author" content="{{ page.author }}">
+<meta name="og:title" content="{{ page.title }}">
+
+{% endblock %}
+
 {% block title %}{{ site.site_title }} - {{ page.title }}{% endblock %}
 
 {% block content %}
