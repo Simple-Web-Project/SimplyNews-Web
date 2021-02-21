@@ -41,7 +41,16 @@
                 <source src="{{ el.src }}">
             </video>
         {% elif el.type == "iframe" %}
-            <iframe allowfullscreen="allowfullscreen" frameborder="0" width="100%" src="{{ el.src }}"></iframe>
+            <iframe allowfullscreen="allowfullscreen" frameborder="0"
+            {% if el.width %}
+                width="{{ el.width }}"
+            {% else %}
+                width="100%"
+            {% endif %}
+            {% if el.height %}
+                height="{{ el.height }}"
+            {% endif %}
+            src="{{ el.src }}"></iframe>
         {% elif el.type == "unsorted list" %}
             <ul>
                 {% for entry in el.entries %}
