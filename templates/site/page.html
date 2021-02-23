@@ -50,6 +50,7 @@
             {% if el.height %}
                 height="{{ el.height }}"
             {% endif %}
+            style="max-width: 100%;"
             src="{{ el.src }}"></iframe>
         {% elif el.type == "unsorted list" %}
             <ul>
