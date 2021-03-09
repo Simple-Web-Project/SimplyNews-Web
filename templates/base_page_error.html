@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{% block errorTitle %}{% endblock %}</h1>
+<p>{% block errorMessage %}{% endblock %}</p>
+<p>You can <a href="/">go back to home</a>{% if site_link %},
+    or <a href="{{ site_link }}">visit {{ sitename }} on SimplyNews</a>{% endif %}{% if original_link %},
+    or <a href="{{ original_link }}">visit this page on {{ sitename }}</a>{% endif %}.
+</p>
+{% block errorContent %}{% endblock %}
+{% endblock %}

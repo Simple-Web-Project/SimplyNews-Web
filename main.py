@@ -1,5 +1,7 @@
 from quart import Quart, render_template
 from simplynews_sites.links import sites
+from requests import HTTPError
+import traceback
 import config
 import datetime
 import json
@@ -51,7 +53,8 @@ async def site_main(site):
                 recent_articles_cached = json.loads(cache_file.read())
 
             last_updated = recent_articles_cached["last_updated"]
-            date_time = datetime.datetime.strptime(last_updated, "%Y-%m-%d %H:%M:%S.%f")
+            date_time = datetime.datetime.strptime(
+                last_updated, "%Y-%m-%d %H:%M:%S.%f")
             if (datetime.datetime.now() - date_time) > sites[
                 site
             ].cache_refresh_time_delta:
@@ -80,9 +83,40 @@ async def site_main(site):
 @app.route("/<string:site>/<path:path>")
 async def handle_page_url(site, path):
     if site in sites:
-        page = sites[site].get_page(path)
+        try:
+            site_module = sites[site]
+            page = site_module.get_page(path)
+
+        except HTTPError as e:
+            response = e.response
+            sitename = site_module.site_title
+
+            if response.status_code == 404:
+                return await render_template("site/not_found.html",
+                                             original_link=response.url,
+                                             site_link=f"/{site}",
+                                             sitename=sitename), 404
+            else:
+                return await render_template("site/page_httperror.html",
+                                             reason=response.reason,
+                                             status_code=response.status_code,
+                                             original_link=response.url,
+                                             site_link=f"/{site}",
+                                             sitename=sitename,
+                                             ), response.status_code
+        except Exception as e:
+            stacktrace = traceback.format_exc()
+            sitename = site_module.site_title
+            return await render_template("site/page_exception.html",
+                                         reason=str(e.args[0]),
+                                         stacktrace=stacktrace,
+                                         original_link=f"https://{site}/{path}",
+                                         site_link=f"/{site}",
+                                         sitename=sitename,
+                                         ), 500
+
         if page == None:
-            return await render_template("site/page_error.html")
+            return await render_template("site/page_error.html"), 500
         else:
             return await render_template(
                 "site/page.html",
@@ -92,7 +126,7 @@ async def handle_page_url(site, path):
                 page=page,
             )
     else:
-        return await render_template("site/not_found.html")
+        return await render_template("site/not_found.html"), 404
 
 
 if __name__ == "__main__":

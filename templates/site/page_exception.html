@@ -1,0 +1,14 @@
+{% extends "base_page_error.html" %}
+{% block title %}Error - SimplyNews{% endblock %}
+
+{% block errorTitle %}An error happened{% endblock %}
+{% block errorMessage %}We're sorry, we can't serve this page.{% endblock %}
+{% block errorContent %}
+<div id="error">
+    <code id="reason">Reason: {{ reason }}</code>
+    {% if stacktrace %}
+    <br>
+    <pre><code id="stacktrace">{{ stacktrace }}</code></pre>
+    {% endif %}
+</div>
+{% endblock %}
