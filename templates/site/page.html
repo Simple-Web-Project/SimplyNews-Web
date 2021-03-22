@@ -35,7 +35,19 @@
         {% elif el.type == "code" %}
             <code>{{ el.value }}</code>
         {% elif el.type == "image" %}
-            <img width="100%" src="{{ el.src }}" alt="{{ el.alt }}"/>
+            <img 
+            {% if el.width %}
+                width="{{ el.width }}"
+            {% else %}
+                width="100%"
+            {% endif %}
+            {% if el.height %}
+                height="{{ el.height }}"
+            {% endif %}
+            {% if el.alt %}
+                width="{{ el.alt }}"
+            {% endif %}
+            src="{{ el.src }}"/>
         {% elif el.type == "video" %}
             <video width="100%" controls>
                 <source src="{{ el.src }}">
