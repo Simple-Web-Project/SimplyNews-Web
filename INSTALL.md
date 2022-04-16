@@ -2,16 +2,16 @@
 
 ## Clone simplynews_sites repository and install it
 ```sh
-git clone https://git.sr.ht/~metalune/simplynews_sites
-cd simplynews_sites
+git clone https://codeberg.org/SimpleWeb/SimplyNews-Sites
+cd SimplyNews-Sites
 sudo python3 setup.py install
 cd ..
 ```
 
 ## Clone the repository
 ``` sh
-git clone https://git.sr.ht/~metalune/simplynews_web
-cd simplynews_web
+git clone https://codeberg.org/SimpleWeb/SimplyNews-Web
+cd SimplyNews-Web
 ```
 
 ## Run main.py
