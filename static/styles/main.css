@@ -1,9 +1,9 @@
-@font-face {
+/* @font-face {
     font-family: 'Inter';
     src: url('./fonts/Inter-VariableFont_slnt,wght.ttf');
     font-weight: normal;
     font-style: normal;
-}
+} */
 
 @font-face {
     font-family: 'Vazirmatn';
@@ -12,7 +12,6 @@
     font-style: normal;
     unicode-range: U+00600-006FF;
 }
-
 
 :root {
     --background: #121212;
@@ -23,7 +22,8 @@
 }
 
 html {
-    font-family: Vazirmatn, Inter, Arial, Helvetica, sans-serif;
+    /* font-family: Vazirmatn, Inter, Arial, Helvetica, sans-serif; */
+    font-family: Vazirmatn, Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
 body {

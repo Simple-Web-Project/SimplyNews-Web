@@ -15,7 +15,7 @@ def get_sites(sites_type):
         if site.identifier in actual_sites:
             continue
         actual_sites[site.identifier] = {
-            "link": sites_type + '/' + link,
+            "link": sites_type + '/' + site.identifier,
             "name": site.site_title,
             "logo": site.site_logo if (hasattr(site, 'site_logo')) else '',
             "dir": site.site_dir if (hasattr(site, 'site_dir')) else 'ltr',
@@ -43,13 +43,13 @@ async def main():
     return await render_template("index.html", sites=get_sites('news'), type="news")
 
 
-@app.route("/<string:sites_type>/")
+@app.route("/<string:sites_type>")
 async def sites_types(sites_type):
     print('Hello sites_types!')
     return await render_template("index.html", sites=get_sites(sites_type), type=sites_type)
 
 
-@app.route("/<string:sites_type>/<string:site>/")
+@app.route("/<string:sites_type>/<string:site>")
 async def site_main(sites_type, site):
     print('Hello site_main!')
     if site not in sites[sites_type]:
@@ -139,7 +139,7 @@ async def handle_page_url(sites_type, site, path):
         else:
             return await render_template(
                 "site/page.html",
-                original_link=f"https://{site}/{path}",
+                original_link=f"{site_module.base_url}/{path}",
                 sitename=site,
                 site=sites[sites_type][site],
                 page=page,
@@ -149,5 +149,10 @@ async def handle_page_url(sites_type, site, path):
         return await render_template("site/not_found.html"), 404
 
 
+
 if __name__ == "__main__":
-    app.run()
+    app.run(
+        debug=True, 
+         host='0.0.0.0', 
+         port=5000, 
+         threaded=True)
