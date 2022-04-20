@@ -1,18 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>This is SimplyNews.</h1>
-<p>SimplyNews is a website to read articles from other sites. Without JavaScript, ads or any other interruptions. Just content.</p>
 
-<h3>List of supported sites</h3>
-<ul>
-    {% for site in sites %}
-    <li><a href="{{ site.link }}">{{ site.name }}</a></li>
-    {% endfor %}
-</ul>
-
-<br>
-<p>SimplyNews is part of the Simple Web project</p>
-<p>Do you have problems? Do you want a site to be added? Message us on our <a href="https://webchat.freenode.net/#simple-web">IRC</a> (#simple-web on irc.freenode.net)</p>
-
+<h1>SimplyNews</h1>
+<div class="main">
+    <div class="navbar">
+        <h2 class="{% if type == 'news' %} selected {% endif %}"><a href="/news">News</a></h2>
+        <h2 class="{% if type == 'tech' %} selected {% endif %}"><a href="/tech">Tech</a></h2>
+        <h2 class="{% if type == 'gaming' %} selected {% endif %}"><a href="/gaming">Gaming</a></h2>
+    </div>
+    <div id="content">
+        <div class="cards">
+            {% for site in sites %}
+            <div class="card">
+                <a href="/{{ site.link }}">
+                    <img src="/static/{{ site.logo }}" />
+                </a>
+                <h2>{{ site.name }}</h2>
+            </div>
+            {% endfor %}
+        </div>
+        <br>
+    </div>
+    <footer class="center">
+        <a href="https://simple-web.org/projects/simplynews.html">Project Page</a> | <a
+            href="https://simple-web.org">Simple Web Project</a>
+    </footer>
+</div>
 {% endblock %}

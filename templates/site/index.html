@@ -3,14 +3,27 @@
 {% block title %}{{ site.site_title }} - Recent Articles {% endblock %}
 
 {% block content %}
-
-    <h2>Recent articles from {{ site.site_title }}</h2>
-
-    {% for article in recent_articles %}
-        <a href="{{ article.link }}">
-            {{ article.title }}
-        </a>
+<div class="main">
+    <a href="/{{ type }}" class="back">..</a>
+    <h1>{{ site.site_title }}</h1>
+    <div class="navbar">
+        <h2 class="{% if type == 'news' %} selected {% endif %}"><a href="/news">News</a></h2>
+        <h2 class="{% if type == 'tech' %} selected {% endif %}"><a href="/tech">Tech</a></h2>
+        <h2 class="{% if type == 'gaming' %} selected {% endif %}"><a href="/gaming">Gaming</a></h2>
+    </div>
+    <div dir="{{ site.site_dir }}" id="content">
+        {% for article in recent_articles %}
+        <div class="article">
+            <div>
+                <h2>
+                    <a href="{{ article.link }}">{{ article.title }}</a>
+                </h2>
+                <h3>{{article.date}}</h3>
+            </div>
+            {% if article.image %} <img src="{{ article.image }}" /> {% endif %}
+        </div>
         <br>
-        <br>
-    {% endfor %}
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

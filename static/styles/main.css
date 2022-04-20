@@ -1,0 +1,175 @@
+@font-face {
+    font-family: 'Inter';
+    src: url('./fonts/Inter-VariableFont_slnt,wght.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('./fonts/Vazirmatn-VariableFont_wght.ttf');
+    font-weight: normal;
+    font-style: normal;
+    unicode-range: U+00600-006FF;
+}
+
+
+:root {
+    --background: #121212;
+    --onBackground: #1e1e1e;
+    --onOnBackground: #2c2c2c;
+    --h2: cyan;
+    --link: cyan;
+}
+
+html {
+    font-family: Vazirmatn, Inter, Arial, Helvetica, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 1.2em;
+}
+
+h1 {
+    text-align: center;
+}
+
+#content {
+    margin: 0 auto 40px auto;
+    max-width: 900px;
+    background-color: var(--onBackground);
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding: 10px 30px;
+}
+
+a {
+    color: cyan;
+}
+
+div.cards {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+div.card a {
+    text-decoration: none;
+    margin: 0;
+}
+
+div.card {
+    background-color: var(--background);
+    border-radius: 5px;
+    color: white;
+    width: 220px;
+    padding: 10px 20px;
+    margin: 20px 15px;
+}
+
+div.card img {
+    width: 220px;
+    height: 200px;
+    object-fit: contain;
+}
+
+div.card h2 {
+    margin: 0;
+}
+
+div.article {
+    /* background-color: var(--background); */
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    margin: 20px 15px;
+}
+
+div.article div {
+    padding-right: 20px;
+    width: 550px;
+}
+
+div.article h2 {
+    font-size: 1em;
+}
+
+div.article h3 {
+    font-size: .9em;
+    color: rgba(255, 255, 255, 0.336);
+}
+
+div.article h2 a {
+    text-decoration: none;
+    color: white;
+}
+
+div.article img {
+    width: 245px;
+    object-fit: contain;
+}
+
+svg {
+    color: black;
+}
+
+footer {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+footer a {
+    text-decoration: none;
+}
+
+div.navbar {
+    display: flex;
+    justify-content: start;
+}
+
+blockquote {
+    color: var(--h2);
+}
+
+div.main {
+    margin: 0 auto;
+    padding: 0;
+    max-width: 960px;
+}
+
+a.back {
+    float: left;
+}
+
+div.navbar h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+    background-color: var(--background);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 10px 20px;
+}
+
+div.navbar h2.selected {
+    background-color: var(--onBackground);
+}
+
+div.navbar a {
+    text-decoration: none;
+    color: var(--h2);
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    svg {
+        color: white;
+    }
+
+    body {
+        background-color: var(--background);
+        color: #f8f9fa;
+    }
+}

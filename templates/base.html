@@ -5,11 +5,13 @@
     {% block head %}{% endblock %}
     <title>{% block title %}SimplyNews{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="#">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/main.css') }}">
 </head>
 
-<body style="max-width: 800px; margin: 0 auto; padding-left: 5px; padding-right: 5px">
-    <div id="content">{% block content %}{% endblock %}</div>
-    <footer>{% block footer %}{% endblock %}</footer>
+<body>
+    {% block content %}{% endblock %}
+    <!-- <footer>{% block footer %}{% endblock %}</footer> -->
 </body>
 
 </html>
