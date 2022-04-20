@@ -1,3 +1,3 @@
 quart
-simplynews_sites
+git+https://codeberg.org/SimpleWeb/SimplyNews-Sites
 configparser
