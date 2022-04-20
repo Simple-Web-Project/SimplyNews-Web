@@ -6,7 +6,7 @@ SimplyNews is a website to read articles from other sites. Without JavaScript, a
 
 ### Clone the repository
 ```bash
-git clone https://codeberg.org/SimpleWeb/SimplyNews-Sites
+git clone https://codeberg.org/SimpleWeb/SimplyNews-Web
 cd SimplyNews-Web/
 ```
 
