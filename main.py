@@ -6,6 +6,13 @@ import config
 import datetime
 import json
 import os
+import threading
+import time
+from colorama import Fore, Back, Style
+import datetime
+from urllib.request import pathname2url, url2pathname
+import uuid
+import urllib
 
 
 def get_sites(sites_type):
@@ -30,10 +37,18 @@ def get_sites(sites_type):
 # Configuration
 cfg = config.parse_config()
 
+cache_path = os.path.expanduser(cfg["settings"]["cachePath"])
+
 os.makedirs(
-    os.path.expanduser(cfg["settings"]["cachePath"]),
+    cache_path,
     exist_ok=True,
 )
+for sites_type in sites.keys():
+    for site in sites[sites_type].keys():
+        os.makedirs(
+            f'{cache_path}/{sites_type}/{sites[sites_type][site].identifier}',
+            exist_ok=True,
+        )
 
 app = Quart(__name__)
 
@@ -45,98 +60,31 @@ async def main():
 
 @app.route("/<string:sites_type>")
 async def sites_types(sites_type):
-    print('Hello sites_types!')
     return await render_template("index.html", sites=get_sites(sites_type), type=sites_type)
 
 
 @app.route("/<string:sites_type>/<string:site>")
 async def site_main(sites_type, site):
-    print('Hello site_main!')
     if site not in sites[sites_type]:
         return await render_template("site/not_found.html")
 
-    ident = sites[sites_type][site].identifier
-    # cache_file_path = os.path.join(
-    #     os.path.expanduser(cfg["settings"]["cachePath"]),
-    #     f"{ident}.json",
-    # )
-    recent_articles = None
-
-    # if os.path.exists(cache_file_path):
-    #     try:
-    #         with open(cache_file_path, "r") as cache_file:
-    #             recent_articles_cached = json.loads(cache_file.read())
-
-    #         last_updated = recent_articles_cached["last_updated"]
-    #         date_time = datetime.datetime.strptime(
-    #             last_updated, "%Y-%m-%d %H:%M:%S.%f")
-    #         if (datetime.datetime.now() - date_time) > sites[
-    #             site
-    #         ].cache_refresh_time_delta:
-    #             recent_articles = None
-    #         else:
-    #             recent_articles = recent_articles_cached["recent_articles"]
-
-    #     except Exception as e:
-    #         print(f"Error loading cache for '{ident}':")
-    #         print(str(e))
-
-    if recent_articles is None:
-        recent_articles = sites[sites_type][site].get_recent_articles()
-
-        # cache_content = {
-        #     "last_updated": str(datetime.datetime.now()),
-        #     "recent_articles": recent_articles,
-        # }
-        # with open(cache_file_path, "w") as cache_file:
-        #     cache_file.write(json.dumps(cache_content))
-    return await render_template(
-        "site/index.html", site=sites[sites_type][site], recent_articles=recent_articles, type=sites_type
-    )
+    recent_articles = get_recent_articles_from_cache(sites_type, site)
+    if recent_articles:
+        return await render_template(
+            "site/index.html",
+            site=sites[sites_type][site],
+            recent_articles=recent_articles,
+            type=sites_type
+        )
+    return await render_template("site/wait.html", site=site)
 
 
 @app.route("/<string:sites_type>/<string:site>/<path:path>")
 async def handle_page_url(sites_type, site, path):
     if site in sites[sites_type]:
-        try:
-            site_module = sites[sites_type][site]
-            page = site_module.get_page(path)
-
-        except HTTPError as e:
-            response = e.response
-            sitename = site_module.site_title
-
-            if response.status_code == 404:
-                return await render_template(
-                    "site/not_found.html",
-                    original_link=response.url,
-                    site_link=f"/{site}",
-                    sitename=sitename
-                ), 404
-            else:
-                return await render_template(
-                    "site/page_httperror.html",
-                    reason=response.reason,
-                    status_code=response.status_code,
-                    original_link=response.url,
-                    site_link=f"/{site}",
-                    sitename=sitename,
-                ), response.status_code
-        except Exception as e:
-            stacktrace = traceback.format_exc()
-            sitename = site_module.site_title
-            return await render_template(
-                "site/page_exception.html",
-                reason=str(e.args[0]),
-                stacktrace=stacktrace,
-                original_link=f"https://{site}/{path}",
-                site_link=f"/{site}",
-                sitename=sitename,
-            ), 500
-
-        if page == None:
-            return await render_template("site/page_error.html"), 500
-        else:
+        site_module = sites[sites_type][site]
+        page = get_page_from_cache(sites_type, site, path)
+        if page:
             return await render_template(
                 "site/page.html",
                 original_link=f"{site_module.base_url}/{path}",
@@ -145,14 +93,104 @@ async def handle_page_url(sites_type, site, path):
                 page=page,
                 type=sites_type
             )
-    else:
-        return await render_template("site/not_found.html"), 404
+    return await render_template("site/not_found.html"), 404
 
+
+def write_site_main_cache(sites_type, site):
+    recent_articles = sites[sites_type][site].get_recent_articles()
+    for article in recent_articles:
+        article['id'] = uuid.uuid1().int
+    cache_file_path = os.path.join(
+        cache_path,
+        f"{sites_type}/{sites[sites_type][site].identifier}/recent_articles.json",
+    )
+    with open(cache_file_path, "w") as cache_file:
+        cache_file.write(json.dumps(recent_articles))
+    return recent_articles
+
+
+def get_page_from_cache(sites_type, site, path):
+    local_link = urllib.parse.quote(path).lower()
+    for item in get_recent_articles_from_cache(sites_type, site):
+        if item['link'] == local_link:
+            file_name = item['id']
+            cache_file_path = os.path.join(
+                cache_path,
+                f"{sites_type}/{sites[sites_type][site].identifier}/{file_name}.json",
+            )
+            if os.path.exists(cache_file_path):
+                with open(cache_file_path, "r") as cache_file:
+                    page = json.loads(cache_file.read())
+                    return page
+
+
+def get_site_articles_content(sites_type, site):
+    recent_articles = write_site_main_cache(sites_type, site)
+    for article in recent_articles:
+        handle_page_url_cache(sites_type, site, article['link'])
+
+
+def get_recent_articles_from_cache(sites_type, site):
+    cache_file_path = os.path.join(
+        cache_path,
+        f"{sites_type}/{sites[sites_type][site].identifier}/recent_articles.json",
+    )
+    if os.path.exists(cache_file_path):
+        with open(cache_file_path, "r") as cache_file:
+            recent_articles = json.loads(cache_file.read())
+            return recent_articles
+
+
+def handle_page_url_cache(sites_type, site, path):
+    for item in get_recent_articles_from_cache(sites_type, site):
+        if item['link'] == path:
+            file_name = item['id']
+            cache_file_path = os.path.join(
+                cache_path,
+                f"{sites_type}/{sites[sites_type][site].identifier}/{file_name}.json",
+            )
+            with open(cache_file_path, "w") as cache_file:
+                site_module = sites[sites_type][site]
+                page = site_module.get_page(item['link'])
+                cache_file.write(json.dumps(page))
+                return page
+
+
+def write_site_main_cache_interval():
+    while True:
+        time_a = datetime.datetime.now().replace(microsecond=0)
+
+        threads = []
+        for sites_type in sites.keys():
+            for site in sites[sites_type].keys():
+                threads.append(
+                    threading.Thread(
+                        target=get_site_articles_content,
+                        args=(sites_type, site)
+                    )
+                )
+
+        for thread in threads:
+            thread.start()
+
+        for thread in threads:
+            thread.join()
+
+        time_b = datetime.datetime.now().replace(microsecond=0)
+        print(
+            Fore.BLUE + f'Finished fetching cache. It took: {(time_b-time_a).total_seconds()}s' + Style.RESET_ALL)
+
+        time_interval = int(cfg["settings"]["timeInterval"]) * 60
+        time.sleep(time_interval)
 
 
 if __name__ == "__main__":
+
+    r = threading.Thread(target=write_site_main_cache_interval)
+    r.start()
     app.run(
-        debug=True, 
-         host='0.0.0.0', 
-         port=5000, 
-         threaded=True)
+        debug=True,
+        host='0.0.0.0',
+        port=5000,
+        threaded=True
+    )
