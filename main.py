@@ -9,10 +9,9 @@ import os
 import threading
 import time
 from colorama import Fore, Back, Style
-import datetime
-from urllib.request import pathname2url, url2pathname
-import uuid
 import urllib
+import shutil
+import hashlib
 
 
 def get_sites(sites_type):
@@ -38,6 +37,7 @@ def get_sites(sites_type):
 cfg = config.parse_config()
 
 cache_path = os.path.expanduser(cfg["settings"]["cachePath"])
+shutil.rmtree(cache_path)
 
 os.makedirs(
     cache_path,
@@ -99,7 +99,7 @@ async def handle_page_url(sites_type, site, path):
 def write_site_main_cache(sites_type, site):
     recent_articles = sites[sites_type][site].get_recent_articles()
     for article in recent_articles:
-        article['id'] = uuid.uuid1().int
+        article['id'] = hashlib.sha256(article['link'].encode()).hexdigest()
     cache_file_path = os.path.join(
         cache_path,
         f"{sites_type}/{sites[sites_type][site].identifier}/recent_articles.json",
@@ -122,25 +122,6 @@ def get_page_from_cache(sites_type, site, path):
                 with open(cache_file_path, "r") as cache_file:
                     page = json.loads(cache_file.read())
                     return page
-
-
-def get_site_articles_content(sites_type, site):
-    old_recent_articles = get_recent_articles_from_cache(sites_type, site)
-    old_tmp = old_recent_articles
-    recent_articles = write_site_main_cache(sites_type, site)
-    new_tmp = recent_articles
-
-    for item in old_tmp:
-        del item['id']
-
-    for item in new_tmp:
-        del item['id']
-        
-    if old_tmp != new_tmp:
-        for article in recent_articles:
-            handle_page_url_cache(sites_type, site, article['link'])
-    else:
-        print(Fore.RED + 'Canceled ' + f'{site} pages fetching')
 
 
 def get_recent_articles_from_cache(sites_type, site):
@@ -170,6 +151,18 @@ def handle_page_url_cache(sites_type, site, path):
 
 
 def write_site_main_cache_interval():
+    def get_site_articles_content(sites_type, site):
+        old_recent_articles = get_recent_articles_from_cache(sites_type, site)
+        old_tmp = old_recent_articles
+        recent_articles = write_site_main_cache(sites_type, site)
+        new_tmp = recent_articles
+
+        if old_tmp != new_tmp:
+            for article in recent_articles:
+                handle_page_url_cache(sites_type, site, article['link'])
+        else:
+            print(Fore.RED + 'Canceled ' + f'{site} pages fetching')
+
     while True:
         time_a = datetime.datetime.now().replace(microsecond=0)
 
