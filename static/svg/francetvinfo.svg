@@ -11,6 +11,9 @@
    xml:space="preserve"
    sodipodi:docname="francetvinfo.svg"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   inkscape:export-filename="/mnt/main_storage/Git/SimplyNews/SimplyNews-Web/static/francetvinfo.webp"
+   inkscape:export-xdpi="164.57143"
+   inkscape:export-ydpi="164.57143"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -20,11 +23,11 @@
    xmlns:dc="http://purl.org/dc/elements/1.1/"><defs
    id="defs35" /><sodipodi:namedview
    id="namedview33"
-   pagecolor="#ffffff"
+   pagecolor="#555555"
    bordercolor="#666666"
    borderopacity="1.0"
    inkscape:pageshadow="2"
-   inkscape:pageopacity="0.0"
+   inkscape:pageopacity="0"
    inkscape:pagecheckerboard="0"
    showgrid="false"
    inkscape:zoom="6.5652145"
