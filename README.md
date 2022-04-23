@@ -11,7 +11,7 @@ git clone https://codeberg.org/SimpleWeb/SimplyNews-Web
 
 ### Install the dependencies
 ```sh
-sudo apt-get install xvfb xserver-xephyr tigervnc-standalone-server x11-utils gnumeric
+sudo apt-get install xvfb xserver-xephyr tigervnc-standalone-server x11-utils gnumeric firefox
 
 cd SimplyNews-Web/
 pip install -r requirements.txt
