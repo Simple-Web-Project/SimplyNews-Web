@@ -125,9 +125,22 @@ def get_page_from_cache(sites_type, site, path):
 
 
 def get_site_articles_content(sites_type, site):
+    old_recent_articles = get_recent_articles_from_cache(sites_type, site)
+    old_tmp = old_recent_articles
     recent_articles = write_site_main_cache(sites_type, site)
-    for article in recent_articles:
-        handle_page_url_cache(sites_type, site, article['link'])
+    new_tmp = recent_articles
+
+    for item in old_tmp:
+        del item['id']
+
+    for item in new_tmp:
+        del item['id']
+        
+    if old_tmp != new_tmp:
+        for article in recent_articles:
+            handle_page_url_cache(sites_type, site, article['link'])
+    else:
+        print(Fore.RED + 'Canceled ' + f'{site} pages fetching')
 
 
 def get_recent_articles_from_cache(sites_type, site):
@@ -178,7 +191,7 @@ def write_site_main_cache_interval():
 
         time_b = datetime.datetime.now().replace(microsecond=0)
         print(
-            Fore.BLUE + f'Finished fetching cache. It took: {(time_b-time_a).total_seconds()}s' + Style.RESET_ALL)
+            Fore.BLUE + f'Finished fetching cache. It took: {int((time_b-time_a).total_seconds())}s' + Style.RESET_ALL)
 
         time_interval = int(cfg["settings"]["timeInterval"]) * 60
         time.sleep(time_interval)
