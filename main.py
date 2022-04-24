@@ -136,6 +136,7 @@ def get_recent_articles_from_cache(sites_type, site):
 
 
 def handle_page_url_cache(sites_type, site, path):
+    recent_articles = get_recent_articles_from_cache(sites_type, site)
     for item in get_recent_articles_from_cache(sites_type, site):
         if item['link'] == path:
             file_name = item['id']
@@ -143,11 +144,24 @@ def handle_page_url_cache(sites_type, site, path):
                 cache_path,
                 f"{sites_type}/{sites[sites_type][site].identifier}/{file_name}.json",
             )
+            
             with open(cache_file_path, "w") as cache_file:
                 site_module = sites[sites_type][site]
                 page = site_module.get_page(item['link'])
-                cache_file.write(json.dumps(page))
-                return page
+                if page:
+                    cache_file.write(json.dumps(page))
+                    return page
+                print(Fore.RED + 'Canceled ' + Style.RESET_ALL + item['link'])
+                recent_articles.remove(item)
+                
+
+    cache_file_path = os.path.join(
+        cache_path,
+        f"{sites_type}/{sites[sites_type][site].identifier}/recent_articles.json",
+    )
+    with open(cache_file_path, "w") as cache_file:
+        cache_file.write(json.dumps(recent_articles))
+    return recent_articles
 
 
 def write_site_main_cache_interval():
