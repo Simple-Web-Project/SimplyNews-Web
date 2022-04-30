@@ -34,7 +34,7 @@ h1 {
 #content {
     margin: 0 auto 40px auto;
     max-width: 900px;
-    background-color: var(--onBackground);    
+    background-color: var(--onBackground);
     border-radius: 5px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
@@ -135,10 +135,6 @@ div.main {
     max-width: 960px;
 }
 
-a.back {
-    float: left;
-}
-
 div.navbar h2 {
     margin-top: 0;
     margin-bottom: 0;
@@ -155,4 +151,30 @@ div.navbar h2.selected {
 div.navbar a {
     text-decoration: none;
     color: var(--h2);
+}
+
+@media screen and (max-width: 995px) {
+    div#content {
+        padding: 10px 0;
+    }
+
+    div.cards {
+        justify-content: center;
+    }
+
+    div.article {
+        text-align: center;
+        flex-wrap: wrap;
+        background-color: var(--background);
+        padding: 40px 10px;
+        margin-top: 0;
+        margin-bottom: 0;
+        justify-content: center;
+    }
+    div.article div {
+        padding: 0;
+    }
+    div.article h2 {
+        margin-top: 0;
+    }
 }

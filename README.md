@@ -14,6 +14,7 @@ git clone https://codeberg.org/SimpleWeb/SimplyNews-Web
 sudo apt-get install xvfb xserver-xephyr tigervnc-standalone-server x11-utils gnumeric firefox
 
 cd SimplyNews-Web/
+sudo chmod +x drivers/geckodriver
 pip install -r requirements.txt
 ```
 
@@ -24,6 +25,6 @@ python3 main.py
 # Using uvicorn
 uvicorn main:app --port 5000
 ```
-
+    
 ### TODOs
 - [ ] i18n
