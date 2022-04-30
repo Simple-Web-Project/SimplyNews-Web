@@ -25,6 +25,3 @@ python3 main.py
 # Using uvicorn
 uvicorn main:app --port 5000
 ```
-    
-### TODOs
-- [ ] i18n
