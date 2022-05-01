@@ -15,7 +15,7 @@ sudo apt-get install xvfb xserver-xephyr tigervnc-standalone-server x11-utils gn
 cd SimplyNews-Web/
 pip install -r requirements.txt
 sudo chmod +x drivers/chromedriver
-tar -xf drivers/ungoogled-chromium_*.tar.xz
+tar -xf drivers/ungoogled-chromium_*.tar.xz ./drivers/
 ```
 
 ### Run the main.py
