@@ -37,6 +37,7 @@ def get_sites(sites_type):
 cfg = config.parse_config()
 
 cache_path = os.path.expanduser(cfg["settings"]["cachePath"])
+os.mkdir(cache_path)
 shutil.rmtree(cache_path)
 
 os.makedirs(
