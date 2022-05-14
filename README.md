@@ -19,9 +19,11 @@ tar -xf drivers/ungoogled-chromium_*.tar.xz ./drivers/
 ```
 
 ### Run the main.py
+Directly
 ```sh
-# Directly
 python3 main.py
-# Using uvicorn
+```
+Using uvicorn
+```sh
 uvicorn main:app --port 5000
 ```

@@ -1,5 +1,5 @@
 from quart import Quart, render_template
-from simplynews_sites.links import sites
+from sites.links import sites
 from requests import HTTPError
 import traceback
 import config
@@ -36,8 +36,12 @@ def get_sites(sites_type):
 # Configuration
 cfg = config.parse_config()
 
-cache_path = os.path.expanduser(cfg["settings"]["cachePath"])
-os.mkdir(cache_path)
+cache_path = './cache/'
+try:
+    os.mkdir(cache_path)
+except OSError:
+    pass
+
 shutil.rmtree(cache_path)
 
 os.makedirs(
@@ -148,11 +152,15 @@ def handle_page_url_cache(sites_type, site, path):
             
             with open(cache_file_path, "w") as cache_file:
                 site_module = sites[sites_type][site]
-                page = site_module.get_page(item['link'])
+                page = None
+                try:
+                    page = site_module.get_page(item['link'])
+                except:
+                    pass
                 if page:
                     cache_file.write(json.dumps(page))
                     return page
-                print(Fore.RED + 'Canceled ' + Style.RESET_ALL + item['link'])
+                print(Fore.RED + 'Canceled ' + Style.RESET_ALL + site + '/' + item['link'])
                 recent_articles.remove(item)
                 
 
