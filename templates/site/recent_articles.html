@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}{{ site.site_title }} - Recent Articles {% endblock %}
+{% block title %}{{ site_module.site_title }} - Recent Articles {% endblock %}
 
 {% block content %}
 <div class="main">
-    <h1>{{ site.site_title }}</h1>
+    <h1>{{ site_module.site_title }}</h1>
     <div class="navbar">
         <h2 class="{% if type == 'news' %} selected {% endif %}"><a href="/news">News</a></h2>
         <h2 class="{% if type == 'tech' %} selected {% endif %}"><a href="/tech">Tech</a></h2>
         <h2 class="{% if type == 'gaming' %} selected {% endif %}"><a href="/gaming">Gaming</a></h2>
     </div>
-    <div dir="{{ site.site_dir }}" id="content">
+    <div dir="{{ site_module.site_dir }}" id="content">
         {% for article in recent_articles %}
         <div class="article">
             <div>
                 <h2>
-                    <a href="/{{type}}/{{site.identifier}}/{{ article.link }}">{{ article.title }}</a>
+                    <a href="/{{site_module.identifier}}/{{ article.link }}">{{ article.title }}</a>
                 </h2>
                 <h3>{{article.date}}</h3>
             </div>

@@ -14,7 +14,7 @@ from . import franceinfo
 from . import developpez
 # from . import mediapart
 
-# from . import aljazeeranet
+from . import aljazeeranet
 
 sites = {
     "gaming": {
@@ -30,11 +30,9 @@ sites = {
     },
     "news": {
         theguardian.identifier: theguardian,
-        # aljazeeranet.identifier: aljazeeranet,
+        aljazeeranet.identifier: aljazeeranet,
         franceinfo.identifier: franceinfo,
     }
-
-
     # "androidauthority.com": androidauthority,
     # "www.androidauthority.com": androidauthority,
 
@@ -52,5 +50,14 @@ sites = {
 
     # "www.mediapart.fr": mediapart,
     # "mediapart.fr": mediapart
-
 }
+
+sites_list = {}
+for site_type in sites.keys():
+    for site in sites[site_type].keys():
+        sites_list[site] = (sites[site_type][site])
+
+sites_type_map = {}
+for site_type in sites.keys():
+    for site in sites[site_type].keys():
+        sites_type_map[site] = site_type

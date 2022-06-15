@@ -7,7 +7,7 @@ import feedparser
 import urllib.parse
 from colorama import Fore, Back, Style
 
-identifier = "theguardian"
+identifier = "theguardian.com"
 cache_refresh_time_delta = timedelta(hours=12)
 base_url = "https://www.theguardian.com"
 
@@ -16,15 +16,21 @@ site_logo = "the_guardian.webp"
 
 rss_feed = f"{base_url}/international/rss"
 
-def get_page(url):
+
+def get_article(url):
+
     response = requests.get(f"{base_url}/{url}.json")
     response.raise_for_status()
     page_data = json.loads(response.text)
     soup = BeautifulSoup(page_data["html"], "lxml")
 
+    author = soup.select_one("meta[itemprop=description]")
+    if author:
+        author = soup.select_one("meta[itemprop=description]")["content"]
+
     data = {
         "title": page_data["config"]["page"]["headline"],
-        "subtitle": soup.select_one("meta[itemprop=description]")["content"],
+        "subtitle": author,
         "author": page_data["config"]["page"]["author"] or "Reuters",
         "last_updated": soup.select_one(".content__dateline time").text.strip("\n").strip(),
     }
@@ -48,7 +54,7 @@ def get_page(url):
         if image:
             c.append(image)
 
-    for element in soup.find("div", class_="content__article-body"):
+    for element in soup.find_all("div", class_="content__article-body"):
         el = {}
 
         if element.name == "p":
@@ -72,22 +78,18 @@ def get_page(url):
 
     data["article"] = c
 
+    print(Fore.GREEN + 'Fetched ' + Style.RESET_ALL + url)
     return data
 
 
 def get_recent_articles():
+    print('theguardian.com: Fetching Recent Articles')
     feed = feedparser.parse(rss_feed)
     feed_ = []
     for entry in feed["entries"]:
-        url = urllib.parse.urlparse(entry["link"])
-
-        local_link = url.path.strip("/")  # Kill annoying slashes
-
-        print(Fore.GREEN + 'Fetched ' + Style.RESET_ALL + f'{base_url}/{urllib.parse.unquote(local_link)}')
-
         feed_.append({
             "title": entry["title"],
-            "link": local_link,
+            "link": urllib.parse.urlparse(entry["link"]).path.strip("/"),
             "image": entry['media_content'][1]['url'],
             "date": entry['published'],
             "author": entry['author']
@@ -138,6 +140,6 @@ if __name__ == "__main__":
 
     page_url = "global-development/2021/feb/23/revealed-migrant-worker-deaths-qatar-fifa-world-cup-2022"
 
-    page = json.dumps(get_page(page_url), ensure_ascii=False, indent=2)
+    page = json.dumps(get_article(page_url), ensure_ascii=False, indent=2)
 
     print(page)

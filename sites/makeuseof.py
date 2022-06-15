@@ -4,7 +4,7 @@ from datetime import timedelta
 from .helpers import rss
 
 cache_refresh_time_delta = timedelta(hours=12)
-identifier = "makeuseof"
+identifier = "makeuseof.com"
 base_url = "https://makeuseof.com"
 
 site_title = "Make Use Of"
@@ -12,7 +12,7 @@ site_logo = "makeuseof.webp"
 
 rss_feed = f"{base_url}/feed/"
 
-def get_page(url):
+def get_article(url):
     response = requests.get(f"{base_url}/{url}")
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "lxml")
@@ -67,5 +67,5 @@ def get_recent_articles():
     return rss.default_feed_parser(rss_feed)
 
 if __name__ == "__main__":
-    #get_page("turn-tiktok-sound-into-android-ringtone")
+    #get_article("turn-tiktok-sound-into-android-ringtone")
     print(get_recent_articles())

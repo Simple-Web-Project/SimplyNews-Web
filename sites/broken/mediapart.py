@@ -73,7 +73,7 @@ def get_iframe(element):
         }
 
 
-def get_page(url):
+def get_article(url):
     full_url = f"{base_url}/{url}"
     response = requests.get(full_url)
     soup = BeautifulSoup(response.text, "lxml")
@@ -304,6 +304,6 @@ if __name__ == "__main__":
     # dossier
 
     # page = get_recent_articles()
-    page = get_page(page_url)
+    page = get_article(page_url)
 
     print(page)

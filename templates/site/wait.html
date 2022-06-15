@@ -1,1 +1,5 @@
-<h1>Wait... SimplyNews hasn't fetched {{site}} yet.</h1>
+{% extends "base_page_error.html" %}
+{% block title %}Wait{% endblock %}
+
+{% block errorTitle %}Wait...{% endblock %}
+{% block errorMessage %}SimplyNews hasn't fetched this yet.{% endblock %}

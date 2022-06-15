@@ -103,7 +103,7 @@ div.article h2 a {
 }
 
 div.article img {
-    width: 245px;
+    max-width: 245px;
     object-fit: contain;
 }
 

@@ -6,7 +6,7 @@ from datetime import timedelta
 from colorama import Fore, Back, Style
 
 cache_refresh_time_delta = timedelta(hours=12)
-identifier = "nytimes"
+identifier = "nytimes.com"
 base_url = "https://nytimes.com"
 
 site_title = "New York Times"
@@ -14,7 +14,7 @@ site_title = "New York Times"
 rss_feed = "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"
 
 
-def get_page(url):
+def get_article(url):
     response = requests.get(f"{base_url}/{url}")
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "lxml")
@@ -35,4 +35,4 @@ def get_recent_articles():
 
 if __name__ == "__main__":
     # print(get_recent_articles())
-    get_page("2021/01/31/us/gene-allmond-john-brooks-hamilton-georgia.html")
+    get_article("2021/01/31/us/gene-allmond-john-brooks-hamilton-georgia.html")

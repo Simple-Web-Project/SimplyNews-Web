@@ -6,13 +6,13 @@ from .helpers import rss
 base_url = "https://gameinformer.com"
 
 cache_refresh_time_delta = timedelta(hours=12)
-identifier = "gameinformer"
+identifier = "gameinformer.com"
 site_title = "GameInformer"
 site_logo = "gameinformer.webp"
 
 rss_feed = f"{base_url}/rss.xml"
 
-def get_page(url):
+def get_article(url):
     full_url = f"{base_url}/{url}"
     response = requests.get(full_url)
     response.raise_for_status()
@@ -86,5 +86,5 @@ def get_recent_articles():
 
 if __name__ == "__main__":
     print(get_recent_articles())
-    #get_page("2021/01/26/the-lord-of-the-rings-gollum-gets-delayed-to-2022")
-    #get_page("2021/01/29/what-it-would-really-take-to-get-me-back-into-pokemon")
+    #get_article("2021/01/26/the-lord-of-the-rings-gollum-gets-delayed-to-2022")
+    #get_article("2021/01/29/what-it-would-really-take-to-get-me-back-into-pokemon")

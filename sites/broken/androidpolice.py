@@ -36,7 +36,7 @@ def get_image(image):
     }
 
 
-def get_page(url):
+def get_article(url):
     response = requests.get(
         f"{base_url}/{url}", headers={"User-Agent": constants.USER_AGENT}
     )
@@ -134,7 +134,7 @@ if __name__ == "__main__":
     page_url = "2021/02/18/the-first-android-12-preview-lands-today-with-more-changes-than-we-expected"
     # no subtitle
 
-    page = get_page(page_url)
+    page = get_article(page_url)
     # page = get_recent_articles()
 
     print(page)

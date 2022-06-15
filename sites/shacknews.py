@@ -4,7 +4,7 @@ from datetime import timedelta
 from .helpers import rss, utils
 
 cache_refresh_time_delta = timedelta(hours=12)
-identifier = "shacknews"
+identifier = "shacknews.com"
 base_url = "https://shacknews.com"
 
 site_title = "Shack News"
@@ -13,7 +13,7 @@ site_logo = "shacknews.webp"
 rss_feed = f"{base_url}/feed/rss"
 
 
-def get_page(url):
+def get_article(url):
     response = requests.get(f"{base_url}/{url}")
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "lxml")
@@ -74,4 +74,4 @@ if __name__ == "__main__":
     page_url = "article/122896/watch-nasas-perseverance-rovers-new-video-and-images-here"
     # youtube iframe
 
-    page = get_page(page_url)
+    page = get_article(page_url)

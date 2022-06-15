@@ -13,3 +13,5 @@ def parse_config():
             break
 
     return cfg
+
+cfg = parse_config()

@@ -12,7 +12,7 @@ site_title = "New York Post"
 rss_feed = f"{base_url}/feed/"
 
 
-def get_page(url):
+def get_article(url):
     response = requests.get(f"{base_url}/{url}")
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "lxml")
@@ -78,4 +78,4 @@ def get_recent_articles():
 
 if __name__ == "__main__":
     print(get_recent_articles())
-    # get_page("2021/01/30/john-chaneys-kindness-wont-be-forgotten/")
+    # get_article("2021/01/30/john-chaneys-kindness-wont-be-forgotten/")

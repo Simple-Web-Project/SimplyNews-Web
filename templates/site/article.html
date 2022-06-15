@@ -7,11 +7,11 @@
 
 {% endblock %}
 
-{% block title %}{{ site.site_title }} - {{ page.title }}{% endblock %}
+{% block title %}{{ site_module.site_title }} - {{ page.title }}{% endblock %}
 
 {% block content %}
 <div class="main">
-    <h1>{{ sitename }}</h1>
+    <h1>{{ site_module.site_title }}</h1>
     <div class="navbar">
         <h2 class="{% if type == 'news' %} selected {% endif %}"><a href="/news">News</a></h2>
         <h2 class="{% if type == 'tech' %} selected {% endif %}"><a href="/tech">Tech</a></h2>

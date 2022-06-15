@@ -7,7 +7,7 @@ import feedparser
 import urllib
 from colorama import Fore, Back, Style
 
-identifier = "franceinfo"
+identifier = "francetvinfo.fr"
 site_title = "Franceinfo"
 site_logo = "francetvinfo.webp"
 
@@ -53,7 +53,7 @@ def get_iframe(iframe):
     return el
 
 
-def get_page(url):
+def get_article(url):
     response = requests.get(f"{base_url}/{url}")
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "lxml")
@@ -278,6 +278,6 @@ if __name__ == "__main__":
     page_url = "monde/afrique/afrique-du-sud/afrique-du-sud-pour-ne-plus-etre-des-cibles-les-femmes-prennent-les-armes_4354289.html"
     # slideshow
 
-    page = get_page(page_url)
+    page = get_article(page_url)
 
     print(page)

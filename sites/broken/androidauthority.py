@@ -14,7 +14,7 @@ site_title = "Android Authority"
 rss_feed = f"{base_url}/feed/"
 
 
-def get_page(url):
+def get_article(url):
     response = requests.get(
         f"{base_url}/{url}", headers={"User-Agent": constants.USER_AGENT}
     )
@@ -82,6 +82,6 @@ def get_recent_articles():
 
 
 if __name__ == "__main__":
-    # page = get_page("pioneer-dolby-atmos-add-on-speakers-deal-1196972")
+    # page = get_article("pioneer-dolby-atmos-add-on-speakers-deal-1196972")
     page = get_recent_articles()
     print(page)

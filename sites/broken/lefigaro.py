@@ -28,7 +28,7 @@ def get_image(img):
     }
 
 
-def get_page(url):
+def get_article(url):
     response = requests.get(f"{base_url}/{url}")
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "lxml")
@@ -240,5 +240,5 @@ if __name__ == "__main__":
     page_url = "confinement-partiel-commerces-ce-qu-il-faut-retenir-des-mesures-de-restriction-dans-les-alpes-maritimes-20210222"
     # multiple authors
 
-    page = get_page(page_url)
+    page = get_article(page_url)
     print(page)

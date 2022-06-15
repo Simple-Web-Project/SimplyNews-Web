@@ -4,7 +4,7 @@ from datetime import timedelta
 from .helpers import rss, utils
 
 cache_refresh_time_delta = timedelta(days=1)
-identifier = "decentralizetoday"
+identifier = "dt.gl"
 base = "https://dt.gl"
 
 site_title = "Decentralize Today"
@@ -13,7 +13,7 @@ site_logo = "decentralizetoday.webp"
 rss_feed = f"{base}/rss/"
 
 
-def get_page(url):
+def get_article(url):
     response = requests.get(f"{base}/{url}")
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "lxml")

@@ -7,7 +7,7 @@ import re
 from colorama import Fore, Back, Style
 
 cache_refresh_time_delta = timedelta(hours=12)
-identifier = "theverge"
+identifier = "theverge.com"
 site_title = "theverge.com"
 site_logo = "the_verge.webp"
 
@@ -16,7 +16,7 @@ base_url = "https://theverge.com"
 rss_feed = f"{base_url}/rss/index.xml"
 
 
-def get_page(url):
+def get_article(url):
     response = requests.get(f"{base_url}/{url}")
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "lxml")
@@ -78,5 +78,5 @@ def get_recent_articles():
 
 
 if __name__ == "__main__":
-    print(get_page("2021/1/30/22257721/whatsapp-status-privacy-facebook-signal-telegram/"))
+    print(get_article("2021/1/30/22257721/whatsapp-status-privacy-facebook-signal-telegram/"))
     # print(get_recent_articles())

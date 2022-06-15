@@ -7,7 +7,7 @@ import bs4
 
 
 cache_refresh_time_delta = timedelta(hours=3)
-identifier = "developpez"
+identifier = "developpez.com"
 site_title = "Developpez.com"
 site_logo = "developpez.jpg"
 
@@ -21,7 +21,7 @@ QUOTATION_SIGN = ""
 # visible with gedit, vim
 
 
-def get_page(url):
+def get_article(url):
     response = requests.get(f"{base_url}/{url}")
     response.raise_for_status()
     response_text = response.text.replace(QUOTATION_SIGN, "'")
@@ -124,6 +124,6 @@ if __name__ == "__main__":
 
     page_url = "actu/313361/Le-projet-GNU-de-Richard-Stallman-ne-veut-plus-de-code-JavaScript-non-libre-envoye-aux-navigateurs-par-les-sites-Web-et-invite-des-volontaires-a-creer-des-extensions-libres-pour-les-remplacer/"
 
-    page = get_page(page_url)
+    page = get_article(page_url)
 
     print(page)

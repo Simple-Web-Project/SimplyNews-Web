@@ -12,7 +12,7 @@ site_title = "ItsFoss"
 rss_feed = "https://feeds.feedburner.com/ItsFoss"
 
 
-def get_page(url):
+def get_article(url):
     response = requests.get("https://itsfoss.com/{}".format(url))
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "lxml")
@@ -113,5 +113,5 @@ def get_recent_articles():
 
 
 if __name__ == "__main__":
-    # get_page("run-shell-script-linux")
+    # get_article("run-shell-script-linux")
     get_recent_articles()

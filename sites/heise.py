@@ -6,14 +6,14 @@ from .helpers import rss
 base_url = "https://heise.de"
 
 cache_refresh_time_delta = timedelta(hours=12)
-identifier = "heise"
+identifier = "heise.de"
 site_title = "heise online"
 site_logo = "heise.webp"
 
 rss_feed = f"{base_url}/rss/heise-atom.xml"
 
 
-def get_page(url):
+def get_article(url):
     response = requests.get(f"{base_url}/{url}?seite=all")
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "lxml")
@@ -83,7 +83,7 @@ def get_recent_articles():
 
 
 if __name__ == "__main__":
-    # get_page(
+    # get_article(
     #    "hintergrund/Missing-Link-Roboter-Androide-ueber-Maschinenwesen-und-ihre-Vermenschlichung-5040488.html"
     # )
     print(get_recent_articles())
